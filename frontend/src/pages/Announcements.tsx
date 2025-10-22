@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Bell, Calendar, Filter, Plus, AlertCircle } from 'lucide-react';
+import { Bell, Calendar, Plus, AlertCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export default function Announcements() {
@@ -67,8 +67,8 @@ export default function Announcements() {
   const filteredAnnouncements = announcements.filter(announcement => {
     const matchesPriority = filter === 'all' || announcement.priority === filter;
     const matchesAudience = announcement.targetAudience === 'all' || 
-                           announcement.targetAudience === user?.role || 
-                           announcement.targetAudience === 'students';
+                           announcement.targetAudience === 'students' ||
+                           announcement.targetAudience === 'teachers';
     return matchesPriority && matchesAudience;
   });
 

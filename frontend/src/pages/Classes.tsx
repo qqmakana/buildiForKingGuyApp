@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { BookOpen, Users, Clock, Search, Play, Star, Award } from 'lucide-react';
+import { BookOpen, Clock, Search, Play, Star, Award } from 'lucide-react';
 
 export default function Classes() {
   const { user } = useAuth();

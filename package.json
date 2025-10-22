@@ -10,11 +10,18 @@
     "build": "cd frontend && npm run build",
     "start:backend": "cd backend && npm start"
   },
-  "keywords": ["school", "education", "management"],
+  "keywords": [
+    "school",
+    "education",
+    "management"
+  ],
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "surge": "^0.24.6"
+  },
+  "dependencies": {
+    "vercel": "^48.4.1"
   }
 }
-
