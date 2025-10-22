@@ -7,7 +7,7 @@
 
 ### Alternative URLs:
 - https://andile-m-afrika-school-solarcouple-4780s-projects.vercel.app
-- https://andile-m-afrika-school-bhzjgoncg-solarcouple-4780s-projects.vercel.app
+- https://andile-m-afrika-school-f5jj12s3h-solarcouple-4780s-projects.vercel.app
 
 ---
 
