@@ -7,12 +7,16 @@
       "config": {
         "distDir": "dist"
       }
+    },
+    {
+      "src": "api/index.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/api/[...path].ts"
+      "dest": "/api/index.js"
     },
     {
       "src": "/(.*\\.(js|css|ico|svg|png|jpg|jpeg|gif))",
@@ -22,5 +26,10 @@
       "src": "/(.*)",
       "dest": "/frontend/dist/index.html"
     }
-  ]
+  ],
+  "env": {
+    "NODE_ENV": "production",
+    "JWT_SECRET": "andile-m-afrika-school-secret-key-2024-super-secure",
+    "PORT": "5000"
+  }
 }
