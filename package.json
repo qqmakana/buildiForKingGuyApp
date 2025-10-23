@@ -23,6 +23,10 @@
     "surge": "^0.24.6"
   },
   "dependencies": {
-    "vercel": "^48.4.1"
+    "vercel": "^48.4.1",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2"
   }
 }

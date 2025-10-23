@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 // JWT Secret
 const JWT_SECRET = process.env.JWT_SECRET || 'andile-m-afrika-school-secret-key-2024-super-secure';
 
-// In-memory database for demo (since we can't use SQLite in serverless)
+// In-memory database for demo
 const users = [
   {
     id: 1,
@@ -41,6 +41,10 @@ const users = [
 
 // Health check
 app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', message: 'Andile M-Afrika API is running' });
+});
+
+app.get('/', (req, res) => {
   res.json({ status: 'ok', message: 'Andile M-Afrika API is running' });
 });
 
@@ -166,5 +170,5 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Something went wrong!' });
 });
 
-// Export for Vercel
+// Export for Vercel Serverless
 module.exports = app;
