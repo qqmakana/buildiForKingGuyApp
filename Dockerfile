@@ -1,45 +1,48 @@
-# Multi-stage Dockerfile for complete full-stack app
-
-# Stage 1: Build Frontend
-FROM node:18-alpine AS frontend-build
-WORKDIR /app/frontend
-COPY frontend/package*.json ./
-RUN npm install
-COPY frontend/ ./
-ARG VITE_API_URL
-ENV VITE_API_URL=${VITE_API_URL}
-RUN npm run build
-
-# Stage 2: Build Backend
-FROM node:18-alpine AS backend-build
-WORKDIR /app/backend
-COPY backend/package*.json ./
-RUN npm install
-COPY backend/ ./
-RUN npm run build
-
-# Stage 3: Production
+# Complete Full-Stack Dockerfile
 FROM node:18-alpine
+
 WORKDIR /app
 
 # Copy backend
-COPY --from=backend-build /app/backend/dist ./backend/dist
-COPY --from=backend-build /app/backend/node_modules ./backend/node_modules
-COPY --from=backend-build /app/backend/package.json ./backend/
+COPY backend/package*.json ./backend/
+COPY backend/tsconfig.json ./backend/
+COPY backend/src ./backend/src
 
 # Copy frontend
-COPY --from=frontend-build /app/frontend/dist ./frontend/dist
+COPY frontend/package*.json ./frontend/
+COPY frontend/tsconfig.json ./frontend/
+COPY frontend/vite.config.ts ./frontend/
+COPY frontend/tailwind.config.js ./frontend/
+COPY frontend/postcss.config.js ./frontend/
+COPY frontend/index.html ./frontend/
+COPY frontend/src ./frontend/src
+COPY frontend/public ./frontend/public
 
-# Install serve to serve frontend
-RUN npm install -g concurrently serve
+# Install and build backend
+WORKDIR /app/backend
+RUN npm install
+RUN npm run build
 
-# Expose ports
-EXPOSE 5000 3000
+# Install and build frontend
+WORKDIR /app/frontend
+RUN npm install
+ENV VITE_API_URL=/api
+RUN npm run build
+
+# Setup final workspace
+WORKDIR /app
+
+# Create startup script
+RUN echo '#!/bin/sh' > start.sh && \
+    echo 'cd /app/backend && node dist/server.js' >> start.sh && \
+    chmod +x start.sh
+
+# Expose port
+EXPOSE 5000
 
 # Set environment
 ENV NODE_ENV=production
 ENV PORT=5000
 
-# Start both services
-CMD ["sh", "-c", "cd backend && node dist/server.js & serve -s frontend/dist -l 3000"]
-
+# Start backend (which will serve frontend too)
+CMD ["./start.sh"]

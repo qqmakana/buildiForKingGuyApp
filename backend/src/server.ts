@@ -21,6 +21,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Serve frontend static files
+app.use(express.static('../frontend/dist'));
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/classes', classRoutes);
@@ -34,6 +37,13 @@ app.use('/api/announcements', announcementRoutes);
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Andile M-Afrika API is running' });
+});
+
+// Serve frontend for all other routes (SPA)
+app.get('*', (req, res) => {
+  if (!req.path.startsWith('/api')) {
+    res.sendFile('index.html', { root: '../frontend/dist' });
+  }
 });
 
 // Error handling middleware
