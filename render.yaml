@@ -1,9 +1,8 @@
 services:
+  # Backend API
   - type: web
     name: andile-school-api
-    env: node
-    region: oregon
-    plan: free
+    runtime: node
     buildCommand: cd backend && npm install && npm run build
     startCommand: cd backend && npm start
     envVars:
@@ -13,4 +12,21 @@ services:
         generateValue: true
       - key: PORT
         value: 5000
+    healthCheckPath: /api/health
 
+  # Frontend
+  - type: web
+    name: andile-school-frontend
+    runtime: static
+    buildCommand: cd frontend && npm install && VITE_API_URL=$BACKEND_URL npm run build
+    staticPublishPath: frontend/dist
+    envVars:
+      - key: BACKEND_URL
+        fromService:
+          type: web
+          name: andile-school-api
+          property: url
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
