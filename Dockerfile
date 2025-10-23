@@ -11,6 +11,7 @@ COPY backend/src ./backend/src
 # Copy frontend
 COPY frontend/package*.json ./frontend/
 COPY frontend/tsconfig.json ./frontend/
+COPY frontend/tsconfig.node.json ./frontend/
 COPY frontend/vite.config.ts ./frontend/
 COPY frontend/tailwind.config.js ./frontend/
 COPY frontend/postcss.config.js ./frontend/
